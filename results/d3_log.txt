@@ -1,0 +1,24 @@
+corpus 8000 | prop 'is_drd2_active' pos-rate 0.15 | vocab 58 | w_prop 5.0
+D:\Anaconda3\Lib\site-packages\torch\nn\modules\transformer.py:307: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(f"enable_nested_tensor is True, but self.use_nested_tensor is False because {why_not_sparsity_fast_path}")
+[d3-vae] ep 001 loss=4.844 recon=2.790 kl=18.691 prop=0.382
+[d3-vae] ep 005 loss=3.004 recon=1.782 kl=5.299 prop=0.204
+[d3-vae] ep 010 loss=2.665 recon=1.517 kl=3.571 prop=0.175
+[d3-vae] ep 015 loss=2.367 recon=1.411 kl=3.403 prop=0.123
+[d3-vae] ep 020 loss=2.121 recon=1.354 kl=3.373 prop=0.086
+[d3-vae] ep 025 loss=1.897 recon=1.311 kl=3.346 prop=0.050
+[d3-vae] ep 030 loss=1.750 recon=1.275 kl=3.303 prop=0.029
+[d3-vae] ep 035 loss=1.661 recon=1.247 kl=3.264 prop=0.018
+[d3-vae] ep 040 loss=1.607 recon=1.223 kl=3.247 prop=0.012
+saved puridiff_optim/molecule/assets/vae_drd2_d3/vae.pt
+[D3 probe] property-aware 隐空间 z→is_drd2_active 线性探针 AUC = 1.000
+D:\Anaconda3\Lib\site-packages\torch\nn\modules\transformer.py:307: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(f"enable_nested_tensor is True, but self.use_nested_tensor is False because {why_not_sparsity_fast_path}")
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "E:\fullproject\project\LKM-SMA-NN\CADET_DPNN\CADET_DPNN\puridiff_optim\molecule\train_latent_aware.py", line 141, in <module>
+    main()
+  File "E:\fullproject\project\LKM-SMA-NN\CADET_DPNN\CADET_DPNN\puridiff_optim\molecule\train_latent_aware.py", line 136, in main
+    print(f"[D3 probe] vanilla(纯重构) 隐空间 AUC = {auc_van:.3f}  →  "
+UnicodeEncodeError: 'gbk' codec can't encode character '\u2705' in position 44: illegal multibyte sequence

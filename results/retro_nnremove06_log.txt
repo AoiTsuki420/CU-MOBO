@@ -1,0 +1,18 @@
+[seed=0] nn-remove Tc>=0.6: train 4186 -> 3770 (剔除留出 HIGH 的近邻)
+[seed=0] unique: 4306 | high(>=p75): 1078 | held-out HIGH: 60, LOW: 60 | train: 3770
+[seed=0] generated: CU-MOBO 104 valid | random 81 valid
+[seed=0] recovery@0.4 CU 0.367 vs rand 0.217 → enrich 1.69× | spec 1.47×
+[seed=1] nn-remove Tc>=0.6: train 4186 -> 3965 (剔除留出 HIGH 的近邻)
+[seed=1] unique: 4306 | high(>=p75): 1078 | held-out HIGH: 60, LOW: 60 | train: 3965
+[seed=1] generated: CU-MOBO 101 valid | random 81 valid
+[seed=1] recovery@0.4 CU 0.500 vs rand 0.250 → enrich 2.00× | spec 2.50×
+[seed=2] nn-remove Tc>=0.6: train 4186 -> 3714 (剔除留出 HIGH 的近邻)
+[seed=2] unique: 4306 | high(>=p75): 1078 | held-out HIGH: 60, LOW: 60 | train: 3714
+[seed=2] generated: CU-MOBO 95 valid | random 92 valid
+[seed=2] recovery@0.4 CU 0.383 vs rand 0.300 → enrich 1.28× | spec 2.56×
+
+==== 路 A: 真实 kcat 回顾性富集 (3 seed) ====
+recovery_HIGH_cu     = 0.417 ± 0.059
+recovery_HIGH_random = 0.256 ± 0.034
+enrichment_vs_random = 1.657 ± 0.296
+specificity (hi/lo)  = 2.174 ± 0.501

@@ -1,0 +1,13 @@
+unique 4306 | latent 16 | SNN ref 800
+[seed=0] cu-mobo  n= 18 μ=1.71 IntDiv=0.826 #Circ= 10 scaf=  3 SNN=0.608 novel=0.17
+[seed=0] naive    n= 16 μ=1.67 IntDiv=0.866 #Circ= 12 scaf=  4 SNN=0.589 novel=0.19
+[seed=0] random   n= 17 μ=1.26 IntDiv=0.893 #Circ= 13 scaf=  5 SNN=0.513 novel=0.35
+
+==== 推荐集多样性/新颖性 (1 seed) ====
+         n_unique   mean_mu   IntDiv1  n_circles  n_scaffold  SNN_train  frac_novel
+method                                                                             
+cu-mobo      18.0  1.711604  0.825971       10.0         3.0   0.607783    0.166667
+naive        16.0  1.671249  0.866177       12.0         4.0   0.588695    0.187500
+random       17.0  1.260611  0.893290       13.0         5.0   0.513172    0.352941
+
+CU-MOBO vs naive: 质量 μ 1.67->1.71, IntDiv 0.866->0.826, 骨架 4->3, 新颖 0.19->0.17 => 未塌多样性/新颖性

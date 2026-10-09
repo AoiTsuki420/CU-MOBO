@@ -1,0 +1,29 @@
+naive        seed=0 AUC_true=0.545 topk_true=0.383 gap=0.180 trap=0.24
+sigma-obj    seed=0 AUC_true=0.715 topk_true=0.928 gap=0.013 trap=0.00
+sigma-noise  seed=0 AUC_true=0.615 topk_true=0.903 gap=0.041 trap=0.05
+cu-mobo      seed=0 AUC_true=0.643 topk_true=0.884 gap=0.011 trap=0.00
+qparego      seed=0 AUC_true=0.094 topk_true=0.050 gap=0.709 trap=0.81
+nsga2        seed=0 topk_true=0.343 gap=0.151 trap=0.20
+naive        seed=1 AUC_true=0.058 topk_true=0.052 gap=0.417 trap=0.58
+sigma-obj    seed=1 AUC_true=0.106 topk_true=0.477 gap=0.142 trap=0.26
+sigma-noise  seed=1 AUC_true=0.335 topk_true=0.736 gap=0.043 trap=0.00
+cu-mobo      seed=1 AUC_true=0.376 topk_true=0.807 gap=0.015 trap=0.00
+qparego      seed=1 AUC_true=0.060 topk_true=0.051 gap=0.490 trap=0.60
+nsga2        seed=1 topk_true=0.294 gap=0.153 trap=0.35
+naive        seed=2 AUC_true=0.584 topk_true=0.056 gap=0.221 trap=0.28
+sigma-obj    seed=2 AUC_true=0.684 topk_true=0.883 gap=0.023 trap=0.02
+sigma-noise  seed=2 AUC_true=0.687 topk_true=0.914 gap=0.036 trap=0.02
+cu-mobo      seed=2 AUC_true=0.657 topk_true=0.910 gap=0.024 trap=0.02
+qparego      seed=2 AUC_true=0.360 topk_true=0.053 gap=0.297 trap=0.38
+nsga2        seed=2 topk_true=0.288 gap=0.084 trap=0.10
+
+==== oracle-gap + PMO 样本效率 (AUC/true↑ 越大越好, gap/trap↓ 越小越好) ====
+     method  auc_true  topk_mu_true  topk_mu_true_std  front_gap_mean  trap_frac
+      naive  0.395700      0.163909          0.189964        0.272806   0.368081
+  sigma-obj  0.501735      0.762912          0.248367        0.059681   0.090954
+sigma-noise  0.545763      0.851037          0.099633        0.039829   0.022448
+    cu-mobo  0.559066      0.867112          0.053540        0.017035   0.005747
+    qparego  0.171346      0.051398          0.001108        0.498649   0.595833
+      nsga2       NaN      0.308167          0.030057        0.129437   0.216667
+
+图: E:\fullproject\project\LKM-SMA-NN\CADET_DPNN\CADET_DPNN\puridiff_optim\results\oracle_gap.png 和 oracle_gap_convergence.png

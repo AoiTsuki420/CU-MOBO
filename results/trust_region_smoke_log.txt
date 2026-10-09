@@ -1,0 +1,5 @@
+naive        seed=0 AUC=0.178 topk_true=0.144 gap=0.799
+cu-mobo      seed=0 AUC=0.374 topk_true=0.470 gap=0.266
+naive-tr     seed=0 AUC=0.183 topk_true=0.153 gap=0.910
+cu-mobo-tr   seed=0 AUC=0.197 topk_true=0.161 gap=0.518
+nsga2        seed=0 topk_true=0.340 gap=0.524

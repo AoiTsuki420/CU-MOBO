@@ -1,0 +1,22 @@
+D:\Anaconda3\Lib\site-packages\torch\nn\modules\transformer.py:307: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(f"enable_nested_tensor is True, but self.use_nested_tensor is False because {why_not_sparsity_fast_path}")
+D4: 语料 8000 | latent 16 | 训练整流流 60 ep
+[d4-fm] ep 001 mse=1.0729
+[d4-fm] ep 010 mse=0.3352
+[d4-fm] ep 020 mse=0.2846
+[d4-fm] ep 030 mse=0.2720
+[d4-fm] ep 040 mse=0.2772
+[d4-fm] ep 050 mse=0.2652
+[d4-fm] ep 060 mse=0.2611
+saved E:\fullproject\project\LKM-SMA-NN\CADET_DPNN\CADET_DPNN\puridiff_optim\molecule\assets\vae_drd2_d3w1\fm.pt
+Found local copy...
+
+==== D4 流引导采样 (n=96, steps=100, guide=0.6) ====
+   method  validity  unique  head_prob  mean_drd2  frac_active  max_drd2
+ unguided  0.854167       9   0.111375   0.108440     0.111111  0.927446
+   guided  0.187500       5   0.986928   0.247016     0.200000  0.927446
+grad-only  0.000000       0   1.000000   0.000000     0.000000  0.000000
+
+引导 vs 纯流: mean_DRD2 0.108 -> 0.247 ([OK up]), 有效率 0.85->0.19
+off-manifold 对照(grad-only): head自评 1.000(高) 但 真实DRD2 0.000/有效率 0.00 -> [OK] 印证脱流形被 reward-hack
+图: E:\fullproject\project\LKM-SMA-NN\CADET_DPNN\CADET_DPNN\puridiff_optim\results\flow_guided_d4.png

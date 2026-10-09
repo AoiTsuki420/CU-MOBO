@@ -1,0 +1,46 @@
+[QED] corpus 21658 | VAE latent_dim=16 | label budget=120 | budget=120 seeds=3
+[seed=0] surrogate: label mean=0.735, #(>=0.5)=110
+  naive        seed=0 PMO-AUC=0.862 topk_true=0.866 gap=0.042
+  sigma-obj    seed=0 PMO-AUC=0.849 topk_true=0.859 gap=0.088
+  sigma-noise  seed=0 PMO-AUC=0.867 topk_true=0.871 gap=0.053
+  cu-mobo      seed=0 PMO-AUC=0.856 topk_true=0.851 gap=0.036
+  qparego      seed=0 PMO-AUC=0.868 topk_true=0.919 gap=0.071
+  random       seed=0 PMO-AUC=0.845 topk_true=0.844 gap=0.194
+  nsga2        seed=0 topk_true=0.882 gap=0.045
+  [checkpoint: 1/3 seeds saved]
+[seed=1] surrogate: label mean=0.697, #(>=0.5)=104
+  naive        seed=1 PMO-AUC=0.765 topk_true=0.820 gap=0.100
+  sigma-obj    seed=1 PMO-AUC=0.825 topk_true=0.851 gap=0.120
+  sigma-noise  seed=1 PMO-AUC=0.875 topk_true=0.902 gap=0.115
+  cu-mobo      seed=1 PMO-AUC=0.837 topk_true=0.897 gap=0.109
+  qparego      seed=1 PMO-AUC=0.861 topk_true=0.844 gap=0.095
+  random       seed=1 PMO-AUC=0.804 topk_true=0.811 gap=0.170
+  nsga2        seed=1 topk_true=0.912 gap=0.163
+  [checkpoint: 2/3 seeds saved]
+[seed=2] surrogate: label mean=0.728, #(>=0.5)=110
+  naive        seed=2 PMO-AUC=0.838 topk_true=0.791 gap=0.093
+  sigma-obj    seed=2 PMO-AUC=0.853 topk_true=0.853 gap=0.098
+  sigma-noise  seed=2 PMO-AUC=0.832 topk_true=0.871 gap=0.089
+  cu-mobo      seed=2 PMO-AUC=0.811 topk_true=0.843 gap=0.088
+  qparego      seed=2 PMO-AUC=0.835 topk_true=0.873 gap=0.119
+  random       seed=2 PMO-AUC=0.784 topk_true=0.807 gap=0.183
+  nsga2        seed=2 topk_true=0.796 gap=0.079
+  [checkpoint: 3/3 seeds saved]
+
+==== 外部锚点 [QED] (PMO-AUC/topk_true↑ 越大越好, gap↓ 越小越好) ====
+     method  auc_true  topk_mu_true  topk_mu_true_std  front_gap_mean  front_true_mean
+      naive  0.821681      0.825783          0.037819        0.078485         0.837599
+  sigma-obj  0.842501      0.854214          0.003877        0.101847         0.841333
+sigma-noise  0.858122      0.881095          0.017806        0.085420         0.865404
+    cu-mobo  0.834483      0.863731          0.029322        0.077671         0.837361
+    qparego  0.854935      0.878352          0.037908        0.095188         0.880100
+     random  0.810942      0.820726          0.020656        0.182616         0.611341
+      nsga2       NaN      0.863272          0.060095        0.095452         0.860516
+
+---- 效应量 Cliff's δ (CU-MOBO vs 基线, 3 seeds) ----
+  vs naive      : true δ=+0.56(大) | gap δ=-0.11(小, 负=CU gap 更低更好)
+  vs sigma-obj  : true δ=-0.33(中) | gap δ=-0.33(中, 负=CU gap 更低更好)
+  vs sigma-noise: true δ=-0.56(大) | gap δ=-0.33(中, 负=CU gap 更低更好)
+  vs qparego    : true δ=-0.33(中) | gap δ=-0.33(中, 负=CU gap 更低更好)
+  vs random     : true δ=+0.78(大) | gap δ=-1.00(大, 负=CU gap 更低更好)
+  vs nsga2      : true δ=-0.11(小) | gap δ=-0.11(小, 负=CU gap 更低更好)

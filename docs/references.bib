@@ -1,0 +1,499 @@
+% References for CU-MOBO paper (JCIM / ACS style).
+% NOTE: metadata compiled from the literature; please double-check volume/page/DOI
+% against the originals before final submission.
+
+% ---------- Multi-objective / Bayesian optimization ----------
+@inproceedings{daulton2020qehvi,
+  author    = {Daulton, Samuel and Balandat, Maximilian and Bakshy, Eytan},
+  title     = {Differentiable Expected Hypervolume Improvement for Parallel Multi-Objective Bayesian Optimization},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {33},
+  year      = {2020}
+}
+
+@inproceedings{daulton2021qnehvi,
+  author    = {Daulton, Samuel and Balandat, Maximilian and Bakshy, Eytan},
+  title     = {Parallel Bayesian Optimization of Multiple Noisy Objectives with Expected Hypervolume Improvement},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {34},
+  year      = {2021}
+}
+
+@article{knowles2006parego,
+  author  = {Knowles, Joshua},
+  title   = {ParEGO: A Hybrid Algorithm with On-Line Landscape Approximation for Expensive Multiobjective Optimization Problems},
+  journal = {IEEE Transactions on Evolutionary Computation},
+  volume  = {10},
+  number  = {1},
+  pages   = {50--66},
+  year    = {2006},
+  doi     = {10.1109/TEVC.2005.851274}
+}
+
+@inproceedings{balandat2020botorch,
+  author    = {Balandat, Maximilian and Karrer, Brian and Jiang, Daniel R. and Daulton, Samuel and Letham, Benjamin and Wilson, Andrew Gordon and Bakshy, Eytan},
+  title     = {{BoTorch}: A Framework for Efficient Monte-Carlo Bayesian Optimization},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {33},
+  year      = {2020}
+}
+
+@article{deb2002nsga2,
+  author  = {Deb, Kalyanmoy and Pratap, Amrit and Agarwal, Sameer and Meyarivan, T.},
+  title   = {A Fast and Elitist Multiobjective Genetic Algorithm: {NSGA-II}},
+  journal = {IEEE Transactions on Evolutionary Computation},
+  volume  = {6},
+  number  = {2},
+  pages   = {182--197},
+  year    = {2002},
+  doi     = {10.1109/4235.996017}
+}
+
+@article{shahriari2016bo,
+  author  = {Shahriari, Bobak and Swersky, Kevin and Wang, Ziyu and Adams, Ryan P. and de Freitas, Nando},
+  title   = {Taking the Human Out of the Loop: A Review of Bayesian Optimization},
+  journal = {Proceedings of the IEEE},
+  volume  = {104},
+  number  = {1},
+  pages   = {148--175},
+  year    = {2016},
+  doi     = {10.1109/JPROC.2015.2494218}
+}
+
+@misc{frazier2018bo,
+  author = {Frazier, Peter I.},
+  title  = {A Tutorial on Bayesian Optimization},
+  year   = {2018},
+  note   = {arXiv:1807.02811}
+}
+
+@article{blank2020pymoo,
+  author  = {Blank, Julian and Deb, Kalyanmoy},
+  title   = {pymoo: Multi-Objective Optimization in Python},
+  journal = {IEEE Access},
+  volume  = {8},
+  pages   = {89497--89509},
+  year    = {2020},
+  doi     = {10.1109/ACCESS.2020.2990567}
+}
+
+% ---------- High-dimensional / latent-space BO ----------
+@inproceedings{eriksson2019turbo,
+  author    = {Eriksson, David and Pearce, Michael and Gardner, Jacob R. and Turner, Ryan and Poloczek, Matthias},
+  title     = {Scalable Global Optimization via Local Bayesian Optimization},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {32},
+  year      = {2019}
+}
+
+@inproceedings{maus2022lolbo,
+  author    = {Maus, Natalie and Jones, Haydn T. and Moore, Juston S. and Kusner, Matt J. and Bradshaw, John and Gardner, Jacob R.},
+  title     = {Local Latent Space Bayesian Optimization over Structured Inputs},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {35},
+  year      = {2022}
+}
+
+@inproceedings{lee2023cobo,
+  author    = {Lee, Seunghun and Chu, Jaewon and Kim, Sihyeon and Ko, Juyeon and Kim, Hyunwoo J.},
+  title     = {Advancing Bayesian Optimization via Learning Correlated Latent Space},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2023},
+  note      = {arXiv:2310.20258}
+}
+
+@article{gomezbombarelli2018vae,
+  author  = {G{\'o}mez-Bombarelli, Rafael and Wei, Jennifer N. and Duvenaud, David and Hern{\'a}ndez-Lobato, Jos{\'e} Miguel and S{\'a}nchez-Lengeling, Benjam{\'i}n and Sheberla, Dennis and Aguilera-Iparraguirre, Jorge and Hirzel, Timothy D. and Adams, Ryan P. and Aspuru-Guzik, Al{\'a}n},
+  title   = {Automatic Chemical Design Using a Data-Driven Continuous Representation of Molecules},
+  journal = {ACS Central Science},
+  volume  = {4},
+  number  = {2},
+  pages   = {268--276},
+  year    = {2018},
+  doi     = {10.1021/acscentsci.7b00572}
+}
+
+% ---------- Uncertainty quantification / calibration ----------
+@inproceedings{lakshminarayanan2017ensembles,
+  author    = {Lakshminarayanan, Balaji and Pritzel, Alexander and Blundell, Charles},
+  title     = {Simple and Scalable Predictive Uncertainty Estimation Using Deep Ensembles},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {30},
+  pages     = {6402--6413},
+  year      = {2017}
+}
+
+@inproceedings{kuleshov2018calibrated,
+  author    = {Kuleshov, Volodymyr and Fenner, Nathan and Ermon, Stefano},
+  title     = {Accurate Uncertainties for Deep Learning Using Calibrated Regression},
+  booktitle = {International Conference on Machine Learning (ICML), PMLR 80},
+  pages     = {2796--2804},
+  year      = {2018}
+}
+
+@article{levi2022ence,
+  author  = {Levi, Dan and Gispan, Liran and Giladi, Niv and Fetaya, Ethan},
+  title   = {Evaluating and Calibrating Uncertainty Prediction in Regression Tasks},
+  journal = {Sensors},
+  volume  = {22},
+  number  = {15},
+  pages   = {5540},
+  year    = {2022},
+  doi     = {10.3390/s22155540}
+}
+
+@misc{angelopoulos2021conformal,
+  author = {Angelopoulos, Anastasios N. and Bates, Stephen},
+  title  = {A Gentle Introduction to Conformal Prediction and Distribution-Free Uncertainty Quantification},
+  year   = {2021},
+  note   = {arXiv:2107.07511}
+}
+
+@inproceedings{amini2020evidential,
+  author    = {Amini, Alexander and Schwarting, Wilko and Soleimany, Ava and Rus, Daniela},
+  title     = {Deep Evidential Regression},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {33},
+  pages     = {14927--14937},
+  year      = {2020}
+}
+
+@article{hirschfeld2020uq,
+  author  = {Hirschfeld, Lior and Swanson, Kyle and Yang, Kevin and Barzilay, Regina and Coley, Connor W.},
+  title   = {Uncertainty Quantification Using Neural Networks for Molecular Property Prediction},
+  journal = {Journal of Chemical Information and Modeling},
+  volume  = {60},
+  number  = {8},
+  pages   = {3770--3780},
+  year    = {2020},
+  doi     = {10.1021/acs.jcim.0c00502}
+}
+
+% ---------- Offline model-based optimization / reward hacking ----------
+@inproceedings{trabucco2021coms,
+  author    = {Trabucco, Brandon and Kumar, Aviral and Geng, Xinyang and Levine, Sergey},
+  title     = {Conservative Objective Models for Effective Offline Model-Based Optimization},
+  booktitle = {International Conference on Machine Learning (ICML), PMLR 139},
+  pages     = {10358--10368},
+  year      = {2021}
+}
+
+@inproceedings{trabucco2022designbench,
+  author    = {Trabucco, Brandon and Geng, Xinyang and Kumar, Aviral and Levine, Sergey},
+  title     = {Design-Bench: Benchmarks for Data-Driven Offline Model-Based Optimization},
+  booktitle = {International Conference on Machine Learning (ICML), PMLR 162},
+  pages     = {21658--21676},
+  year      = {2022}
+}
+
+@misc{amodei2016safety,
+  author = {Amodei, Dario and Olah, Chris and Steinhardt, Jacob and Christiano, Paul and Schulman, John and Man{\'e}, Dan},
+  title  = {Concrete Problems in AI Safety},
+  year   = {2016},
+  note   = {arXiv:1606.06565}
+}
+
+@inproceedings{skalse2022rewardhacking,
+  author    = {Skalse, Joar and Howe, Nikolaus H. R. and Krasheninnikov, Dmitrii and Krueger, David},
+  title     = {Defining and Characterizing Reward Gaming},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {35},
+  pages     = {9460--9471},
+  year      = {2022},
+  note      = {arXiv:2209.13085 (preprint title: ``Reward Hacking'')}
+}
+
+% ---------- Molecular generation benchmarks / methods ----------
+@inproceedings{gao2022pmo,
+  author    = {Gao, Wenhao and Fu, Tianfan and Sun, Jimeng and Coley, Connor W.},
+  title     = {Sample Efficiency Matters: A Benchmark for Practical Molecular Optimization},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS), Datasets and Benchmarks Track},
+  year      = {2022},
+  note      = {arXiv:2206.12411}
+}
+
+@article{brown2019guacamol,
+  author  = {Brown, Nathan and Fiscato, Marco and Segler, Marwin H. S. and Vaucher, Alain C.},
+  title   = {{GuacaMol}: Benchmarking Models for de Novo Molecular Design},
+  journal = {Journal of Chemical Information and Modeling},
+  volume  = {59},
+  number  = {3},
+  pages   = {1096--1108},
+  year    = {2019},
+  doi     = {10.1021/acs.jcim.8b00839}
+}
+
+@article{polykovskiy2020moses,
+  author  = {Polykovskiy, Daniil and Zhebrak, Alexander and Sanchez-Lengeling, Benjamin and Golovanov, Sergey and Tatanov, Oktai and Belyaev, Stanislav and Kurbanov, Rauf and Artamonov, Aleksey and Aladinskiy, Vladimir and Veselov, Mark and Kadurin, Artur and Johansson, Simon and Chen, Hongming and Nikolenko, Sergey and Aspuru-Guzik, Al{\'a}n and Zhavoronkov, Alex},
+  title   = {Molecular Sets ({MOSES}): A Benchmarking Platform for Molecular Generation Models},
+  journal = {Frontiers in Pharmacology},
+  volume  = {11},
+  pages   = {565644},
+  year    = {2020},
+  doi     = {10.3389/fphar.2020.565644}
+}
+
+@article{olivecrona2017reinvent,
+  author  = {Olivecrona, Marcus and Blaschke, Thomas and Engkvist, Ola and Chen, Hongming},
+  title   = {Molecular De-Novo Design through Deep Reinforcement Learning},
+  journal = {Journal of Cheminformatics},
+  volume  = {9},
+  pages   = {48},
+  year    = {2017},
+  doi     = {10.1186/s13321-017-0235-x}
+}
+
+@inproceedings{huang2021tdc,
+  author    = {Huang, Kexin and Fu, Tianfan and Gao, Wenhao and Zhao, Yue and Roohani, Yusuf and Leskovec, Jure and Coley, Connor W. and Xiao, Cao and Sun, Jimeng and Zitnik, Marinka},
+  title     = {Therapeutics Data Commons: Machine Learning Datasets and Tasks for Drug Discovery and Development},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS), Datasets and Benchmarks Track},
+  year      = {2021},
+  note      = {arXiv:2102.09548}
+}
+
+@inproceedings{xie2023circles,
+  author    = {Xie, Yutong and Xu, Ziqiao and Ma, Jiaqi and Mei, Qiaozhu},
+  title     = {How Much Space Has Been Explored? Measuring the Chemical Space Covered by Databases and Machine-Generated Molecules},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2023},
+  note      = {arXiv:2112.12542}
+}
+
+% ---------- Generative / guided sampling ----------
+@inproceedings{gruver2023lambo2,
+  author    = {Gruver, Nate and Stanton, Samuel and Frey, Nathan C. and Rudner, Tim G. J. and H{\"o}tzel, Isidro and Lafrance-Vanasse, Julien and Rajpal, Arvind and Cho, Kyunghyun and Wilson, Andrew Gordon},
+  title     = {Protein Design with Guided Discrete Diffusion},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2023},
+  note      = {arXiv:2305.20009 (LaMBO-2)}
+}
+
+@article{yoshizawa2025dyramo,
+  author  = {Yoshizawa, T. and Ishida, S. and Sato, T. and Ohta, M. and Honma, T. and Terayama, K.},
+  title   = {A Data-Driven Generative Strategy to Avoid Reward Hacking in Multi-Objective Molecular Design},
+  journal = {Nature Communications},
+  volume  = {16},
+  pages   = {2409},
+  year    = {2025},
+  doi     = {10.1038/s41467-025-57582-3},
+  note    = {DyRAMO}
+}
+
+@inproceedings{liu2023rectifiedflow,
+  author    = {Liu, Xingchao and Gong, Chengyue and Liu, Qiang},
+  title     = {Flow Straight and Fast: Learning to Generate and Transfer Data with Rectified Flow},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2023},
+  note      = {arXiv:2209.03003}
+}
+
+@inproceedings{dhariwal2021guidance,
+  author    = {Dhariwal, Prafulla and Nichol, Alexander},
+  title     = {Diffusion Models Beat {GANs} on Image Synthesis},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {34},
+  pages     = {8780--8794},
+  year      = {2021}
+}
+
+% ---------- Enzyme kinetics / structure oracles ----------
+@article{li2022dlkcat,
+  author  = {Li, Feiran and Yuan, Le and Lu, Hongzhong and Li, Gang and Chen, Yu and Engqvist, Martin K. M. and Kerkhoven, Eduard J. and Nielsen, Jens},
+  title   = {Deep Learning-Based kcat Prediction Enables Improved Enzyme-Constrained Model Reconstruction},
+  journal = {Nature Catalysis},
+  volume  = {5},
+  number  = {8},
+  pages   = {662--672},
+  year    = {2022},
+  doi     = {10.1038/s41929-022-00798-z}
+}
+
+@article{yu2023unikp,
+  author  = {Yu, Han and Deng, Huaxiang and He, Jiahui and Keasling, Jay D. and Luo, Xiaozhou},
+  title   = {{UniKP}: A Unified Framework for the Prediction of Enzyme Kinetic Parameters},
+  journal = {Nature Communications},
+  volume  = {14},
+  number  = {1},
+  pages   = {8211},
+  year    = {2023},
+  doi     = {10.1038/s41467-023-44113-1}
+}
+
+@article{kroll2023turnup,
+  author  = {Kroll, Alexander and Rousset, Yvan and Hu, Xiao-Pan and Liebrand, Nina A. and Lercher, Martin J.},
+  title   = {Turnover Number Predictions for Kinetically Uncharacterized Enzymes Using Machine and Deep Learning},
+  journal = {Nature Communications},
+  volume  = {14},
+  number  = {1},
+  pages   = {4139},
+  year    = {2023},
+  doi     = {10.1038/s41467-023-39840-4}
+}
+
+@article{jumper2021alphafold,
+  author  = {Jumper, John and Evans, Richard and Pritzel, Alexander and Green, Tim and Figurnov, Michael and Ronneberger, Olaf and Tunyasuvunakool, Kathryn and Bates, Russ and {\v{Z}}{\'i}dek, Augustin and Potapenko, Anna and others},
+  title   = {Highly Accurate Protein Structure Prediction with {AlphaFold}},
+  journal = {Nature},
+  volume  = {596},
+  number  = {7873},
+  pages   = {583--589},
+  year    = {2021},
+  doi     = {10.1038/s41586-021-03819-2}
+}
+
+@article{wohlwend2024boltz,
+  author  = {Wohlwend, Jeremy and Corso, Gabriele and Passaro, Saro and Getz, Noah and Reveiz, Mateo and Leidal, Ken and Swiderski, Wojtek and Atkinson, Liam and Portnoi, Tally and Chinn, Itamar and Silterra, Jacob and Jaakkola, Tommi and Barzilay, Regina},
+  title   = {Boltz-1: Democratizing Biomolecular Interaction Modeling},
+  journal = {bioRxiv},
+  year    = {2024},
+  doi     = {10.1101/2024.11.19.624167},
+  note    = {Preprint}
+}
+
+% ---------- Cheminformatics tools / metrics ----------
+@misc{landrum_rdkit,
+  author = {Landrum, Greg and others},
+  title  = {{RDKit}: Open-Source Cheminformatics},
+  doi    = {10.5281/zenodo.591637},
+  note   = {Software, https://www.rdkit.org}
+}
+
+@article{truchon2007bedroc,
+  author  = {Truchon, Jean-Fran{\c{c}}ois and Bayly, Christopher I.},
+  title   = {Evaluating Virtual Screening Methods: Good and Bad Metrics for the ``Early Recognition'' Problem},
+  journal = {Journal of Chemical Information and Modeling},
+  volume  = {47},
+  number  = {2},
+  pages   = {488--508},
+  year    = {2007},
+  doi     = {10.1021/ci600426e}
+}
+
+@article{bemis1996scaffolds,
+  author  = {Bemis, Guy W. and Murcko, Mark A.},
+  title   = {The Properties of Known Drugs. 1. Molecular Frameworks},
+  journal = {Journal of Medicinal Chemistry},
+  volume  = {39},
+  number  = {15},
+  pages   = {2887--2893},
+  year    = {1996},
+  doi     = {10.1021/jm9602928}
+}
+
+@article{bickerton2012qed,
+  author  = {Bickerton, G. Richard and Paolini, Gaia V. and Besnard, J{\'e}r{\'e}my and Muresan, Sorel and Hopkins, Andrew L.},
+  title   = {Quantifying the Chemical Beauty of Drugs},
+  journal = {Nature Chemistry},
+  volume  = {4},
+  number  = {2},
+  pages   = {90--98},
+  year    = {2012},
+  doi     = {10.1038/nchem.1243}
+}
+
+@article{ertl2009sa,
+  author  = {Ertl, Peter and Schuffenhauer, Ansgar},
+  title   = {Estimation of Synthetic Accessibility Score of Drug-like Molecules Based on Molecular Complexity and Fragment Contributions},
+  journal = {Journal of Cheminformatics},
+  volume  = {1},
+  number  = {1},
+  pages   = {8},
+  year    = {2009},
+  doi     = {10.1186/1758-2946-1-8}
+}
+
+@article{rogers2010ecfp,
+  author  = {Rogers, David and Hahn, Mathew},
+  title   = {Extended-Connectivity Fingerprints},
+  journal = {Journal of Chemical Information and Modeling},
+  volume  = {50},
+  number  = {5},
+  pages   = {742--754},
+  year    = {2010},
+  doi     = {10.1021/ci100050t}
+}
+
+@article{lipinski1997ro5,
+  author  = {Lipinski, Christopher A. and Lombardo, Franco and Dominy, Beryl W. and Feeney, Paul J.},
+  title   = {Experimental and Computational Approaches to Estimate Solubility and Permeability in Drug Discovery and Development Settings},
+  journal = {Advanced Drug Delivery Reviews},
+  volume  = {23},
+  number  = {1-3},
+  pages   = {3--25},
+  year    = {1997},
+  doi     = {10.1016/S0169-409X(96)00423-1}
+}
+
+@article{baell2010pains,
+  author  = {Baell, Jonathan B. and Holloway, Georgina A.},
+  title   = {New Substructure Filters for Removal of Pan Assay Interference Compounds ({PAINS}) from Screening Libraries and for Their Exclusion in Bioassays},
+  journal = {Journal of Medicinal Chemistry},
+  volume  = {53},
+  number  = {7},
+  pages   = {2719--2740},
+  year    = {2010},
+  doi     = {10.1021/jm901137j}
+}
+
+@article{breiman2001rf,
+  author  = {Breiman, Leo},
+  title   = {Random Forests},
+  journal = {Machine Learning},
+  volume  = {45},
+  number  = {1},
+  pages   = {5--32},
+  year    = {2001},
+  doi     = {10.1023/A:1010933404324}
+}
+
+@article{wu2018moleculenet,
+  author  = {Wu, Zhenqin and Ramsundar, Bharath and Feinberg, Evan N. and Gomes, Joseph and Geniesse, Caleb and Pappu, Aneesh S. and Leswing, Karl and Pande, Vijay},
+  title   = {MoleculeNet: A Benchmark for Molecular Machine Learning},
+  journal = {Chemical Science},
+  volume  = {9},
+  number  = {2},
+  pages   = {513--530},
+  year    = {2018},
+  doi     = {10.1039/C7SC02664A}
+}
+
+@article{trannguyen2020litpcba,
+  author  = {Tran-Nguyen, Viet-Khoa and Jacquemard, C{\'e}lien and Rognan, Didier},
+  title   = {{LIT-PCBA}: An Unbiased Data Set for Machine Learning and Virtual Screening},
+  journal = {Journal of Chemical Information and Modeling},
+  volume  = {60},
+  number  = {9},
+  pages   = {4263--4273},
+  year    = {2020},
+  doi     = {10.1021/acs.jcim.0c00155}
+}
+@article{chen2025uqdesign,
+  author  = {Chen, Lung-Yi and Li, Yi-Pei},
+  title   = {Uncertainty Quantification with Graph Neural Networks for Efficient Molecular Design},
+  journal = {Nature Communications},
+  volume  = {16},
+  pages   = {3262},
+  year    = {2025},
+  doi     = {10.1038/s41467-025-58503-0}
+}
+
+@article{guo2026saturn,
+  author  = {Guo, Jeff and Chen, Junwu and GX-Chen, Anthony and Schwaller, Philippe},
+  title   = {Sample-Efficient Generative Molecular Design Using Memory Manipulation},
+  journal = {Nature Machine Intelligence},
+  volume  = {8},
+  pages   = {449--460},
+  year    = {2026},
+  doi     = {10.1038/s42256-026-01200-4}
+}
+
+@article{vantilborg2026edge,
+  author  = {van Tilborg, Derek and Rossen, Luke and Grisoni, Francesca},
+  title   = {Molecular Deep Learning at the Edge of Chemical Space},
+  journal = {Nature Machine Intelligence},
+  volume  = {8},
+  pages   = {575--587},
+  year    = {2026},
+  doi     = {10.1038/s42256-026-01216-w}
+}
+

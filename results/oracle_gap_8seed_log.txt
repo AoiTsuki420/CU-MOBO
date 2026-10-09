@@ -1,0 +1,7 @@
+naive        seed=0 AUC_true=0.545 topk_true=0.383 gap=0.180 trap=0.24
+sigma-obj    seed=0 AUC_true=0.715 topk_true=0.928 gap=0.013 trap=0.00
+sigma-noise  seed=0 AUC_true=0.615 topk_true=0.903 gap=0.041 trap=0.05
+cu-mobo      seed=0 AUC_true=0.643 topk_true=0.884 gap=0.011 trap=0.00
+qparego      seed=0 AUC_true=0.094 topk_true=0.050 gap=0.709 trap=0.81
+nsga2        seed=0 topk_true=0.343 gap=0.151 trap=0.20
+naive        seed=1 AUC_true=0.058 topk_true=0.052 gap=0.417 trap=0.58

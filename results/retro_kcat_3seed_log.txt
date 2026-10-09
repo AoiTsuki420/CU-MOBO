@@ -1,0 +1,16 @@
+[seed=0] unique: 4306 | high(>=p75): 1078 | held-out HIGH: 60, LOW: 60 | train: 4186
+[seed=0] generated: CU-MOBO 104 valid | random 84 valid
+[seed=0] recovery@0.4 CU 0.450 vs rand 0.317 → enrich 1.42× | spec 1.50×
+[seed=1] unique: 4306 | high(>=p75): 1078 | held-out HIGH: 60, LOW: 60 | train: 4186
+[seed=1] generated: CU-MOBO 103 valid | random 86 valid
+[seed=1] recovery@0.4 CU 0.433 vs rand 0.367 → enrich 1.18× | spec 2.17×
+[seed=2] unique: 4306 | high(>=p75): 1078 | held-out HIGH: 60, LOW: 60 | train: 4186
+[seed=2] generated: CU-MOBO 103 valid | random 79 valid
+[seed=2] recovery@0.4 CU 0.333 vs rand 0.283 → enrich 1.18× | spec 1.54×
+
+==== 路 A: 真实 kcat 回顾性富集 (3 seed) ====
+recovery_HIGH_cu     = 0.406 ± 0.052
+recovery_HIGH_random = 0.322 ± 0.034
+enrichment_vs_random = 1.260 ± 0.114
+specificity (hi/lo)  = 1.735 ± 0.306
+图: E:\fullproject\project\LKM-SMA-NN\CADET_DPNN\CADET_DPNN\puridiff_optim\results\retrospective_kcat.png

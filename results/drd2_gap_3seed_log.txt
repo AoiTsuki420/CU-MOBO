@@ -1,0 +1,17 @@
+Found local copy...
+corpus 8000 (actives 1200) | VAE latent_dim=16 | label budget=600
+[seed=0] surrogate trained: label mean DRD2=0.164, #active(>=0.5)=109
+  naive        seed=0 AUC_true=0.240 topk_true=0.382 gap=0.249
+  sigma-obj    seed=0 AUC_true=0.372 topk_true=0.219 gap=0.156
+  sigma-noise  seed=0 AUC_true=0.123 topk_true=0.203 gap=0.288
+  cu-mobo      seed=0 AUC_true=0.305 topk_true=0.199 gap=0.131
+  qparego      seed=0 AUC_true=0.362 topk_true=0.280 gap=0.231
+  nsga2        seed=0 topk_true=0.423 gap=0.061
+[seed=1] surrogate trained: label mean DRD2=0.119, #active(>=0.5)=76
+  naive        seed=1 AUC_true=0.280 topk_true=0.337 gap=0.250
+  sigma-obj    seed=1 AUC_true=0.279 topk_true=0.250 gap=0.219
+  sigma-noise  seed=1 AUC_true=0.378 topk_true=0.394 gap=0.267
+  cu-mobo      seed=1 AUC_true=0.348 topk_true=0.452 gap=0.252
+  qparego      seed=1 AUC_true=0.467 topk_true=0.541 gap=0.213
+  nsga2        seed=1 topk_true=0.766 gap=0.105
+[seed=2] surrogate trained: label mean DRD2=0.138, #active(>=0.5)=93

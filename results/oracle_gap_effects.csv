@@ -1,0 +1,6 @@
+vs,cliffs_delta_true,mag_true,cliffs_delta_gap,mag_gap
+naive,0.84,大,-0.92,大
+sigma-obj,0.2,小,-0.2,小
+sigma-noise,0.2,小,-0.76,大
+qparego,0.92,大,-1.0,大
+nsga2,1.0,大,-1.0,大
