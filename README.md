@@ -1,204 +1,139 @@
-# puridiff_optim
+# CU-MOBO
 
-重组小分子蛋白纯化策略的**多目标优化器内核**。研究主线:
+**校准不确定性多目标贝叶斯优化(Calibrated-Uncertainty Multi-Objective Bayesian
+Optimization)** —— 面向**昂贵 + 不确定 oracle** 的、把**校准不确定性作为一等目标**的约束多目标
+逆向设计。**原理驱动(贝叶斯优化),不含元启发式**。
 
-> **方向 2 兜底**(成熟 MOBO/qEHVI)+ **方向 1 创新**(代理辅助多目标 ALA)。
-
-本包是**独立模块**,不依赖任何私有平台仓库(`backend/frontend`)或 `CADET_DPNN`
-可微主线。真实评估通过可插拔的 `Problem` / `Simulator` 接口注入,所以现在可以脱离
-那两部分单独开发、benchmark 与发表对照。
+方法细节见 `docs/cu_mobo_method.md`,改进与校准审计见 `docs/cu_mobo_improvements.md`,
+论文初稿见 `docs/paper_draft.md`。
 
 ---
 
-## 1. 目录结构
+## 1. 问题设定
 
-```
-puridiff_optim/
-├── core/
-│   ├── problem.py      # Problem 抽象 (统一最小化, 支持约束 g(x)<=0)
-│   ├── dominance.py    # Pareto / 约束支配, 非支配排序, 拥挤度
-│   ├── archive.py      # 外部有界 Pareto 档案 (拥挤度截断 + leader 选择)
-│   └── operators.py    # Lévy 飞行 (Mantegna), 边界裁剪
-├── algorithms/
-│   ├── ala.py          # ALA 单目标 (忠实复现官方 MATLAB)
-│   ├── mo_ala.py       # ★ MO-ALA 多目标 (本项目创新点)
-│   └── mopso.py        # MOPSO 多目标基线
-├── problems/
-│   └── benchmark.py    # ZDT/DTLZ 适配 (pymoo, 提供真实 PF)
-├── benchmark/
-│   └── run_benchmark.py# 统一 runner: 多算法 x 多问题 x 多 seed -> HV/IGD+
-└── results/            # 输出: CSV 汇总 + 收敛曲线/前沿图
-```
+逆向设计在搜索空间 `x ∈ X`(如生成模型隐空间 `z`)上找高性能候选。每次评估调用一个
+**昂贵**且**不确定**的 oracle(如 KcatMoE 给酶动力学 kcat、Boltz 给结构),它返回:
 
-## 2. 安装依赖
+- 预测活性 `μ(x)`(point estimate);
+- **校准**不确定性 `σ(x)`(如集成/conformal,σ 与真实误差正相关);
+- 其它确定性目标(QED 成药性、SA 可合成性);
+- 约束(SMILES 有效、Lipinski、PAINS、尺寸)。
 
-```powershell
-python -m pip install numpy scipy pandas matplotlib pymoo
-```
-(本机 base env 已具备 numpy/scipy/pandas/matplotlib,补装 `pymoo` 即可。)
+真正想要的是**真实活性 `a_true`**,而非预测 `μ`。
 
-## 3. 快速跑 benchmark
+## 2. 失效模式:oracle-gap
 
-```powershell
-python -m puridiff_optim.benchmark.run_benchmark `
-    --problems zdt1 zdt2 zdt3 dtlz2 --algos mo_ala mopso nsga2 `
-    --seeds 5 --max-fes 10000 --pop 100 --plot
-```
-输出:
-- `results/benchmark_raw.csv` —— 每 (问题,算法,seed) 的 HV / IGD+ / 前沿规模 / 耗时
-- `results/benchmark_summary.csv` —— 按 (问题,算法) 聚合的均值±std
-- `results/convergence_<problem>.png` —— HV 随函数评估次数收敛曲线
-- `results/front_<problem>.png` —— 2 目标问题最终 Pareto 前沿对比
+朴素 `μ`-贪婪逆向设计会**系统性地利用 oracle 过自信但错误的区域**:在某些 `x`, `μ` 被高估
+(看起来高活性)但 `a_true` 低。**校准 σ 在这些区域会升高**(oracle 自己示警),但 μ-贪婪忽略
+σ → 落入陷阱 → 预测高、真实低(oracle-gap 大)。CU-MOBO 就是为消除该 gap 而设计。
 
-## 4. MO-ALA 是什么(创新点)
+## 3. 三个原理性机制(方法贡献)
 
-原始 **Artificial Lemming Algorithm (ALA)** (Xiao 等, *Artificial Intelligence
-Review*, 2025) 是**单目标**算法,目前文献中尚无多目标版本。本包把它扩展为多目标:
+1. **σ 作一等目标**:Pareto 优化 `[μ↑, −σ↑(可信度), QED↑, −SA↑]`。把 `μ−λσ` 标量选择升级成
+   **显式前沿** —— 无 λ 超参,风险偏好在前沿上事后取点。
+2. **校准 σ 作异方差观测噪声(核心算法新意)**:活性 GP 代理用 oracle 的 `σ²(x)` 作
+   **per-point 观测噪声**(`train_Yvar`)。GP 后验**自动下采信高 σ 的不可靠观测、上采信低 σ 的
+   可靠观测** → 后验均值是去噪的真实活性估计 → 直接抵抗 oracle-gap。标准 MOBO(qEHVI/qNEHVI)
+   假设无噪声或同方差,丢掉了 oracle 给的这份校准信息。
+3. **风险感知批量采集 + 约束**:`qNEHVI` 在上述目标上批量(q 点/轮)选点,样本高效;约束用
+   可行性加权。
 
-| 单目标 ALA | MO-ALA (本包) |
-|---|---|
-| 全局唯一最优 `Position` | 每个体从**外部 Pareto 档案**按拥挤度二元锦标赛选 `leader` |
-| 标量 `f1 < f2` 贪婪比较 | **Deb 约束支配**比较 |
-| 无前沿概念 | 有界外部档案(非支配 + 拥挤度截断)即输出前沿 |
-| 能量切换 / 四行为 / Brownian / Lévy | **完整保留** |
+> 2×2 消融(σ-作目标 × σ-作噪声)可独立验证机制 1、2 的贡献。
 
-四行为公式忠实复现官方 `ALA.m`:
-- 能量:`θ = 2·atan(1 − FEs/MaxFEs)`,`E = 2·ln(1/rand)·θ`;`E>1`→探索,否则→开发
-- 探索:`rand<0.3` 长距迁徙(Eq 3.2)/ 否则挖洞(Eq 3.6)
-- 开发:`rand<0.5` 觅食(螺旋, Eq 3.8)/ 否则躲避天敌(Lévy, Eq 3.11)
-- 预算单位 = **函数评估次数 FEs**(非迭代数)→ 与"昂贵评估"代理框架天然对齐
+内核在 `algorithms/cu_mobo.py`,通过 `use_sigma_objective` / `use_sigma_noise` 两个 flag 支持
+`naive` / `sigma-obj` / `sigma-noise` / `cu-mobo` 四种组合。
 
-### 4.1 MO-ALA+ (M1.x 增强, `mo_ala_plus`)
+## 4. 验证协议:打破"自评循环"的 in-silico 版
 
-base MO-ALA 在 ZDT2 偶发早熟坍缩、DTLZ2(3目标)偏弱。MO-ALA+ 在**不改 ALA 核心
-行为**的前提下加两个策略(类比 CALA 给 ALA 加策略):
+逆向设计论文的头号风险是**循环论证**(用 oracle 引导生成、又用同一 oracle 评估)。本方法用
+**合成不确定 oracle 基准**做可控、可证伪的验证:
 
-1. **停滞重启 + 反向学习(OBL)再注入**:监测种群归一化多样性, 坍缩时围绕档案
-   leader 取反向点 + LHS 重注入部分种群 → 根治早熟坍缩;
-2. **ε-支配档案**(`EpsilonArchive`):ε 网格保持前沿均匀, 改善多目标分布。
+- 已知**真实活性 `a_true(x)`**,但优化器**看不到**;
+- oracle 给 `μ = a_true + 陷阱bump(x)`、`σ = σ0 + γ·bump(x)`(**校准**:σ 跟踪误差);
+- 优化器只用 `(μ, σ, qed, sa)` 搜索;
+- 最后用隐藏的 `a_true` 算指标:**true-activity↑、oracle-gap = |μ−a_true|↓、陷阱占比↓**。
 
-base 版 `mo_ala` 保持忠实不变, 作为消融对照。
-
-## 5. 接层析问题(下一步 M3)
-
-实现一个 `Problem` 子类即可接入,把"纯度↑/收率↑"取负转成最小化:
-
-```python
-class ChromatographyProblem(Problem):
-    def __init__(self, simulator):
-        # x = [IEX_pH, load_mg_mL, HIC_salt_m, gradient_cv, ...]
-        super().__init__(n_var=..., n_obj=3, xl=..., xu=...,
-                         n_constr=2, name="iex_hic")
-        self.sim = simulator
-    def _evaluate(self, X):
-        purity, yield_, cost, hcp, risk = self.sim(X)   # 可插拔后端
-        F = np.column_stack([-purity, -yield_, cost])   # 主目标 (最小化)
-        G = np.column_stack([hcp_threshold - hcp, risk - risk_max])  # g<=0 可行
-        return F, G
-```
-`simulator` 后端三选一(规则评分 / CADET 机理 / 可微混合模型),互不影响内核。
-
-## 6. 路线图
-
-- [x] **M1** 优化器内核 + MO-ALA + 标准 MOO benchmark 对比 NSGA-II/MOPSO
-  - MO-ALA 在 ZDT1/ZDT3 优于 NSGA-II, 收敛快 ~5×
-- [x] **M1.x** MO-ALA+ 算法增强 (`mo_ala_plus`): 停滞重启(OBL再注入) + ε-支配档案
-  - ZDT2 早熟坍缩根治 (seed 崩溃 HV 0.11→0.54); DTLZ2(3目标) ε-档案 HV 0.572→0.615
-- [x] **M2** 代理辅助闭环(GP 代理)+ 样本效率对比 MOBO/qEHVI
-  - ZDT1-6D / 120 真实评估: SA-MO-ALA HV=0.869 > MOBO 0.621 > 纯MO-ALA 0.491
-- [x] **M3** 合成层析问题端到端 + Pareto 策略推荐 (`optimize_strategies.py`)
-  - 约束层析问题: SA-MO-ALA 160 评估 ≈ MO-ALA 8000 评估 (HV 0.463 vs 0.445), ~50× 样本效率
-- [ ] **M4** 接 CADET 机理 / 可微混合模型作为 Simulator (替换 `chromatography.simulate`)
-- [ ] **M5** 3 个重组小分子蛋白案例 + 论文图表 + `POST /strategies/optimize` FastAPI 封装
-
-### 复现命令
-
-```powershell
-# M1 标准 benchmark
-python -m puridiff_optim.benchmark.run_benchmark --seeds 5 --max-fes 10000 --plot
-# M2 样本效率对比
-python -m puridiff_optim.benchmark.run_surrogate_comparison --problem zdt1 --n-var 6 --budget 120 --seeds 5 --plot
-# M3 层析策略 Pareto 推荐
-python -m puridiff_optim.optimize_strategies --method sa_mo_ala --budget 160 --plot
-```
-
-## 7. 分子逆向设计集成(与 molgen_baseline 耦合)
-
-把优化器接到 SMILES 生成模型(`molgen_baseline` 的 `SmilesVAE` 连续隐空间),做
-**隐空间多目标分子逆向设计**(`puridiff_optim/molecule/` + `optimize_molecules.py`):
-
-```
-latent z --VAE.generate--> SMILES --(kcat 代理 + RDKit)--> (−kcat μ, σ, SA, −QED)
-        + 约束(有效/Lipinski/PAINS/最小尺寸) --> MO-ALA+(从真实分子隐编码 warm-start)
-        --> 分子 Pareto 前沿(活性↑ vs 不确定性↓ vs 可合成↑ vs 成药↑)
-```
-
-- `VaeDecoder` 复用 molgen 的 `SmilesVAE`(z↔SMILES,greedy 确定性解码)
-- `KcatSurrogate` 从 `ranked_candidates.csv` 训 Morgan-FP 随机森林 → (kcat μ, σ)
-- `MoleculeLatentProblem`:z∈R⁴⁸ → 4 目标 + 4 约束
-- 直接服务 molgen 论文主张:把 `μ−λσ` **标量选择**升级成 **(μ,σ) 显式 Pareto**
-
-```powershell
-python -m puridiff_optim.optimize_molecules --max-fes 4000 --n-agents 80 --plot
-```
-
-> ⚠️ 本地 demo:VAE 为 CPU 小模型(随机隐 ~66% 有效),kcat 用本地代理(KcatMoE 的
-> proxy,仅 100 分子)。**真实研究闭环(Mode B)**:每批候选送真实 KcatMoE/Boltz,
-> true-hit 用独立 oracle(见 molgen `PAPER_PLAN_inverse_design.md` §3);优化 μ 又用同源
-> 信号评估存在循环论证,σ 作显式目标是缓解而非消除。此时换 `sa_mo_ala`(样本高效)。
-
-## 8. CU-MOBO:校准不确定性多目标贝叶斯优化(主线方法)
-
-面向**昂贵 + 不确定 oracle** 的、把**校准不确定性作为一等目标**的约束多目标逆向设计。
-**原理驱动(贝叶斯优化),不含元启发式**。方法细节见 `docs/cu_mobo_method.md`。
-
-三个机制:
-1. **σ 作一等 Pareto 目标**(去掉 `μ−λσ` 的 λ);
-2. **校准 σ² 作活性 GP 的异方差观测噪声**(`train_Yvar`)→ 去噪、下采信不可靠观测,
-   抗 oracle-gap(核心算法新意);
-3. **qNEHVI 批量风险感知采集** + 约束。
-
-验证(打破自评循环的 in-silico 版):合成不确定 oracle(隐藏真值 `a_true`,陷阱区 μ
-虚高 + 校准 σ 升高),用隐藏 `a_true` 算 true-activity / oracle-gap,做 **2×2 消融**
-(σ-作目标 × σ-作噪声)+ NSGA-II 参照。
-
-```powershell
-# 合成 oracle-gap 验证(2x2 消融)
-python -m puridiff_optim.benchmark.run_oracle_gap --seeds 3 --budget 80 --plot
-# 分子隐空间用 CU-MOBO
-python -m puridiff_optim.optimize_molecules --method cu_mobo --budget 160 --plot
-```
-
-> 诚实定级:不是新优化器原理,而是 BO 内的原理性实例化 + oracle-gap 验证协议(应用/
-> 方法学贡献)。ALA 系列(`mo_ala*` / `sa_mo_ala`)保留作历史基线,主线不再使用。
-
-### 8.1 三块验证证据 + 论文初稿
-
-论文初稿:`docs/paper_draft.md`(英文,投 JCIM/Digital Discovery 档,纯 in-silico)。两块验证证据:
+### 4.1 三块验证证据
 
 | 证据 | 文件 | 说明 |
 |---|---|---|
 | **① 合成 oracle-gap(机制证明)** | `benchmark/run_oracle_gap.py`、`problems/uncertain_oracle.py` | 隐藏真值 `a_true`,2×2 消融。CU-MOBO true 0.867±0.054 vs naive 0.164(5.3×)、gap 16×↓;qParEGO(μ-only)最差 → σ 机制才是关键 |
 | **② 真实 kcat 回顾性富集(真实标签)** | `benchmark/run_retrospective_kcat.py`(`--seeds N`) | 真实实验 kcat 标签留出富集,enrichment 1.26±0.11×、特异性 1.74±0.31× |
+| **③ σ 校准审计(诚实负面)** | `benchmark/run_calibration.py` | 真实 kcat 上两个 σ 都只弱校准(Spearman ρ≈0.2),划出"σ 须先真校准"的边界;`results/calibration.png` |
+
+合成基准 σ 按构造完美校准(ρ=1.0)是理想区;真实 ρ=0.2 说明"拿到校准 σ"本身才是瓶颈,指向更强
+UQ(深集成/conformal)与自适应惩罚。
+
+## 5. 安装依赖
 
 ```powershell
-# ① 合成 oracle-gap + PMO(3 seed)
-python -m puridiff_optim.benchmark.run_oracle_gap --seeds 3 --budget 80 --plot
-# ② 真实 kcat 富集(3 seed 误差棒)
-python -m puridiff_optim.benchmark.run_retrospective_kcat --seeds 3 --budget 120 --tau 0.4 --plot
+python -m pip install numpy scipy pandas matplotlib pymoo `
+    torch botorch gpytorch
 ```
 
-> **真实 DRD2 oracle 压力测试(探索, 不入论文)**:`benchmark/run_drd2_gap.py` + `problems/drd2_oracle.py`
-> 已建并跑过,但在「16 维 + 小预算 + 稀有 active」regime 下 CU-MOBO 不及 NSGA-II、σ 机制无稳定收益
-> → 砍出论文,代码留存。配套基础设施:`molecule/_tdc_compat.py`(PyTDC `--no-deps` + `rdkit.six` 垫片,
-> 现代 rdkit/Windows 可用)、`molecule/train_drug_vae.py`(抗后验坍缩 drug-like VAE: word-dropout + free-bits)。
+分子隐空间验证还需 `rdkit` 与本地 `molgen_baseline` 的 `SmilesVAE` 资产。
 
-## 9. 参考文献
+## 6. 快速运行
 
-- Y. Xiao, H. Cui, R. Abu Khurma, P. A. Castillo. *Artificial lemming algorithm: a
-  novel bionic meta-heuristic technique for solving real-world engineering
-  optimization problems.* Artificial Intelligence Review, 2025.
-- C. A. Coello Coello, G. T. Pulido, M. S. Lechuga. *Handling multiple objectives
-  with particle swarm optimization.* IEEE TEC, 2004.
-- K. Deb et al. *A fast and elitist multiobjective genetic algorithm: NSGA-II.*
-  IEEE TEC, 2002.
+```powershell
+# ① 合成 oracle-gap + PMO 样本效率(2×2 消融 + qParEGO + NSGA-II)
+python -m puridiff_optim.benchmark.run_oracle_gap --seeds 3 --budget 80 --plot
+# ② 真实 kcat 回顾性富集(3 seed 误差棒)
+python -m puridiff_optim.benchmark.run_retrospective_kcat --seeds 3 --budget 120 --tau 0.4 --plot
+# ③ σ 校准审计
+python -m puridiff_optim.benchmark.run_calibration --test-frac 0.25 --seed 0 --plot
+# 分子隐空间用 CU-MOBO
+python -m puridiff_optim.optimize_molecules --method cu_mobo --budget 160 --plot
+```
+
+输出:`results/oracle_gap_*.csv/png`、`results/retro_kcat_*.csv/png`、`results/calibration.png`、
+`results/mol_cumobo*.csv`。
+
+## 7. 目录结构(CU-MOBO 相关)
+
+```
+algorithms/
+├── cu_mobo.py            # ★ CU-MOBO 内核(qNEHVI + σ目标 + σ噪声, 2×2 消融 flags)
+├── qparego.py            # qParEGO 基线(μ-only, 忽略 σ)
+└── mobo.py               # 标准 MOBO 参照
+problems/
+├── uncertain_oracle.py   # 合成不确定 oracle(隐藏真值 a_true + 陷阱)
+└── uncertain_optimum.py  # D2 自适应可信度测试床
+surrogate/
+├── gp.py                 # GP 代理
+└── surrogate_problem.py  # 代理辅助 Problem 封装
+molecule/                 # 分子隐空间接口(VAE 解码 + 校准 kcat 代理)
+mode_b/                   # 真实人在环异步闭环(propose / ingest)
+benchmark/                # CU-MOBO 验证 runner 与绘图
+docs/
+├── cu_mobo_method.md       # 方法细节
+├── cu_mobo_improvements.md # D1–D4 改进 + σ 校准审计
+└── paper_draft.md          # 论文初稿(纯 in-silico)
+```
+
+## 8. 改进方向(D1–D4,见 `docs/cu_mobo_improvements.md`)
+
+| | 内容 | 结论 |
+|---|---|---|
+| **D1** | 信赖域 + 校准 σ(类似 TuRBO/LOL-BO) | regime-敏感:小维帮、高维伤,默认关;校准 σ 是真交付 |
+| **D2** | 自适应可信度(DyRAMO 式,单边 σ 惩罚) | **最强正面成果**:修 σ-objective 反噬,3-seed 活性最高且最稳 |
+| **D3** | 属性感知隐空间(CoBO/LOL-BO 式) | 机制成立(probe AUC 0.63→1.0),但暴露重构↔属性张力 |
+| **D4** | 流匹配 + 梯度引导采样(LaMBO-2 式) | 正面:真实 DRD2 活性 2.3×;生成先验=防 reward-hacking 的正则 |
+
+复现命令:
+
+```powershell
+python -m puridiff_optim.benchmark.run_trust_region --n-var 16 --width 0.5 --seeds 3 --budget 120 --plot
+python -m puridiff_optim.benchmark.run_reliability --n-var 8 --seeds 3 --budget 100 --plot
+python -m puridiff_optim.molecule.train_latent_aware --corpus tdc_data/drd2_corpus_hard.csv --prop-col is_drd2_active --out puridiff_optim/molecule/assets/vae_drd2_d3/vae.pt --vanilla puridiff_optim/molecule/assets/vae_drd2_hard/vae.pt --epochs 40 --w-prop 1.0
+python -m puridiff_optim.molecule.flow_guided_d4
+```
+
+## 9. 诚实边界
+
+- 贡献 = **校准不确定性的一等目标化 + 异方差去噪 + oracle-gap 验证协议**在逆向设计上的原理性
+  实例化与实证,属**应用/方法学**贡献,**不主张新优化器原理**;内层 BO/qNEHVI 是昂贵 MOO 的
+  强基线。
+- 合成基准证明机制有效;真实闭环仍需把候选送**真实 KcatMoE/Boltz**,且 true-hit 用**独立
+  oracle** 验证。
+- σ 必须**真校准**才有效;未校准 σ 当噪声/目标无益甚至有害(应作对照)。
