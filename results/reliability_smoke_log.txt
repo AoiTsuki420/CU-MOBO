@@ -1,2 +1,0 @@
-naive        seed=0 AUC=0.516 topk_true=0.557 frac_opt=0.00 best_true=0.602
-sigma-obj    seed=0 AUC=0.523 topk_true=0.630 frac_opt=0.05 best_true=0.760

@@ -1,7 +1,0 @@
-corpus 8000 | prop 'is_drd2_active' pos-rate 0.15 | vocab 58 | w_prop 2.0
-D:\Anaconda3\Lib\site-packages\torch\nn\modules\transformer.py:307: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
-  warnings.warn(f"enable_nested_tensor is True, but self.use_nested_tensor is False because {why_not_sparsity_fast_path}")
-[d3-vae] ep 001 loss=3.656 recon=2.782 kl=15.285 prop=0.389
-[d3-vae] ep 005 loss=2.256 recon=1.716 kl=4.010 prop=0.207
-[d3-vae] ep 010 loss=1.986 recon=1.463 kl=3.342 prop=0.157
-[d3-vae] ep 015 loss=1.910 recon=1.372 kl=3.283 prop=0.115

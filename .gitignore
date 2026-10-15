@@ -4,3 +4,7 @@ __pycache__/
 .venv/
 venv/
 .env
+
+# 结果与文档：不再追踪（本地保留）
+results/
+docs/
